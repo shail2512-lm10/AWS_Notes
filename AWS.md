@@ -25,6 +25,8 @@
     
     - directly using EC2 instance connect. never put access key inside ec2 terminal. always use Roles created for AWS services by IAM
 
+    - Using AWS SSM - Sessions Manager (need to create IAM role for that)
+
 **AMI** (Amazon Machine Images)
 - It is a customization of an EC2 instance
 - AMI are built for specific regions and can be copied across regions
@@ -162,13 +164,166 @@ config destination bucket > choose create new IAM role > Save
 - Caches are in-memory databases with high-performance, low latency
 
 **3. DynamoDB**
-- NoSQL Database
+- NoSQL Database (key/value database)
 - Scales to massive workloads, distributed "serverless" database
 - Single digit milisecond - Low latency retrieval
 - low cost and auto scaling capabilities
 - Standard and IA table class
+- Global Tables: make accessible with low latency in multiple-regions. active-active replication (read/write to any AWS region)
 
 **4. DynamoDB Accelerator - DAX**
 - Fully managed in-memory cache for DynamoDB
 - 10x performance: microseconds latency
 - DAX is only for DynamoDB whereas ElastiCache can be used for other DBs
+
+**5. Redshift**
+- Fully managed data warehouse service
+- Based on PostgreSQl, but its not used for OLTP (online transaction processing)
+- its OLAP (online analytical processing)
+- load data every hour, not second
+- columnar storage of data iinstead of row based
+
+**6. Amazon EMR (Elastic MapReduce)**
+- Helps creating Hadoop clusters (big data)
+- clusters can be made of 100s of EC2 instances
+
+**7. Amazon Athena**
+- Serverles query service to perform analytics against S3 objects
+- uses standard SQL language to query the files
+
+**8. Amazon Quicksight**
+- serverless BI service to create interactive dashboards
+
+**9. DocumentDB**
+- DocumentDB is the same for MongoDB (Aurora for MongoDB)
+- NoSQL Database
+- Fully managed by AWS
+
+**10. Amazon Neptune**
+- Fully managed Graph database
+
+**11. Amazon Timestream**
+- Fully managed time-series database
+
+**12. Amazon QLDB**
+- Quantum Ledger Database
+- A ledger is a book recording financial transactions
+- used to review history of all the changes made to your application data over time
+- Immutable system, cryptographically verifiable
+- it is a centralized database
+
+**13. Amazon Managed Blockchain**
+- It is decentralized
+- managed service to join public blockchain networks or create your own
+
+**14. AWS Glue**
+- Managed ETL service
+- fully serverless service
+- Useful to prepare and transform data for analytics
+
+**15. DMS - Database Migration Service**
+- Quickly, securely migrate dbs
+- Supports Homogeneous migrations as well as Heterogeneous migrations
+
+## **8. Other Compute Services**
+
+**1. ECS** (Elastic Container service)
+- Launch docker containers on AWS
+- You must provision & maintain the infrastructure (EC2)
+- AWS takes care of starting/stopping containers
+- Has integrations with Load Balancer
+
+**2. Fargate**
+- Launch Docker Containers on AWS
+- Dont need to provision the infra (EC2)
+- Serverless offering
+- AWS runs the container for you based on CPU/RAM you need
+
+**3. ECR** (Elastic Container Registery)
+- Private Docker Registery on AWS
+store your Docker images here so that it can be run by Fargate or ECS
+
+**4. AWS Lambda**
+- Virtual functions - no servers to manage
+- limited by time - short executions
+- Run on-demand
+- has time limit: 15 minitues
+- limited temporary disk space
+- serverless
+
+**5. Amazon API Gateway**
+- building a severless API
+- serverless and scalable
+- Supports restful APIs and websocket APIs
+
+**6. AWS Batch**
+- Fully managed batch processing at any scale
+- Batch jobs are defined as Docker Images and run on ECS
+- NO time limit
+- Rely on EBS/instance store for disk space
+- Relies on EC2
+
+## **9. Deployments & Managing Infra at Scale**
+
+**1. AWS CloudFormation**
+- Infrastructure as Code
+- Cost Savings
+- Productivity
+- We can see all the resources and relation between components
+
+**2. AWS CDK**
+- Cloud Development Kit
+- Define Infra in your programming Language
+- Code is compiled into a CloudFormaation Template. (Json/Yaml)
+
+**3. AWS Elastic BeanStalk**
+- Its a developer centric view of deploying an application on AWS
+- Platform As a Service
+- 3 architecture models
+    1. single instance deployment
+    2. LB + ASG
+    3. ASG only (great for non-web apps in prod. ex.workers)
+
+**4. AWS CodeDeploy**
+- deploys application automatically
+- Works with EC2 instances as well as on-premise servers
+
+**5. AWS CodeCommit**
+- Same as GitHub
+
+**6. AWS CodeBuild**
+- Code building service in cloud
+- compiles source code, run tests, produces packages that are ready to be deployed (ex. by CodeDeploy)
+
+**7. AWS CodePipeline**
+- Orchestration Layer
+- code > build > test > provision > deploy
+- Basis for CI/CD
+
+**8. AWS CodeArtifact**
+- artifact management for software development
+- can retrieve dependencies straight from CodeArtifact
+
+**9. AWS CodeCatalyst**
+- quickway to get started to correctly setup codecommit, codepipeline, codebuild, codedeploy, etc...
+- can edit the code in-cloud using "AWS Cloud9" IDE
+
+## **10. AWS Global Infrastructure**
+
+**1. Route 53**
+- Managed DNS (Domain NAme System)
+- DNS is collection of rules & records which helps clients understand how to reach a server through URLs
+- most common records are:
+    1. A (IPv4)
+    2. AAAA (IPv6)
+    3. CNAME: hostname to hostname
+    4. Alias (ex. ELB, S3, RDS, etc...)
+- Routing Policies
+    1. Simple Routing Policy: No Health Checks
+    2. Weighted Routing Policy
+    3. Latency Routing Policy
+    4. Failover Routing Policy
+
+**2. AWS CloudFront**
+- Content Delivery Network (CDN)
+- improves read performance, user experience
