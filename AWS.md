@@ -63,9 +63,20 @@
 
 ## **4. ELB** (Elastic Load Balancing)
 Three types of Load Balancing Available
-1. Application Load Balancer (HTTP/S, gRPC protocols): Static DNS (URL)
-2. Network Load Balancer (TCP / UDP protocols): Static IP through Elastic IP
-3. Gateway Load Balancer (GENEVE protocol on IP packets): Intrusion Detection
+1. Application Load Balancer (HTTP/S, gRPC protocols):  
+    - Static DNS (URL)
+    - Routing based on: path in url, hostname in url, query string, headers
+    - great fit for microservices & conatiner based apps,
+    - Target groups: EC2, ECS tasks, Lambda Func, Private IP
+2. Network Load Balancer (TCP / UDP protocols): 
+    - Static IP through Elastic IP
+    - Less latency, handle millions of requests per sec
+    - 1 static IP per AZ
+    - Target groups: EC2, Private IP, ALB
+3. Gateway Load Balancer (GENEVE protocol on IP packets):
+    - Deploy, scale, manage a fleet of 3rd party network visual appliances in AWS
+    - Intrusion Detection, Firewalls, etc...
+    - Target groups: EC2, private IPs
 - While creating LB create a group of target instances and select the instances for which you want to create LB.
 
 ## **5. ASG** (Auto Scaling Groups)
