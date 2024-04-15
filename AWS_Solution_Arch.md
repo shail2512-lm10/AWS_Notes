@@ -30,3 +30,7 @@ Setup Elastic IP for EC2: Network & Security > Elastic IPs > Allocate Elastic IP
     - EFS scale
     - Performance mode: defualt, MAX I/O
     - Throughput mode: Bursting, Provisioned, Elastic
+
+**S3 Object Lambda**
+- Use AWS lambda funcs to change the object before it is retreived by the caller application 
+- 

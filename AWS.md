@@ -156,6 +156,13 @@ config destination bucket > choose create new IAM role > Save
     2. Volume Gateway
     3. Tape Gateway
 
+8. **S3 - Access Points**
+- Create S3 Access point policy to grant access to specific prefix which gives access to specific users (Ex. Finance, Sales, etc...)
+
+9. **S3 object Lambda**
+- use lambda funcs to change the object befor it is retreived by the caller application
+- S3 bucket > S3 access point > Lamda Func > S3 object Lambda access point
+
 
 ## **7. Databases**
 
@@ -181,18 +188,35 @@ config destination bucket > choose create new IAM role > Save
 - low cost and auto scaling capabilities
 - Standard and IA table class
 - Global Tables: make accessible with low latency in multiple-regions. active-active replication (read/write to any AWS region)
+- 1 RCU = 1 strongly consistent read per second for item upto 4 KB size
+- 1 RCU = 2 eventually consistant read per second for 4 KB size
+- 1 WCU = 1 write per second for 1 KB size
+- to setup rcu,wcu: dynamodb table > additional settings > edit capacity
+- DynamoDB Streams: can setup trigger for lambda function when the records of the tables have some change
+    - DynamoDB Table > Exports and Streams
+- TTL (Time to live): add expire timestamp, items will be automatically deleted after this timestamp
 
 **4. DynamoDB Accelerator - DAX**
 - Fully managed in-memory cache for DynamoDB
 - 10x performance: microseconds latency
 - DAX is only for DynamoDB whereas ElastiCache can be used for other DBs
+- DAX > Clusters > Node families (all, t type, r type) > config networks > config security > advacned settings > create
 
 **5. Redshift**
 - Fully managed data warehouse service
 - Based on PostgreSQl, but its not used for OLTP (online transaction processing)
 - its OLAP (online analytical processing)
 - load data every hour, not second
-- columnar storage of data iinstead of row based
+- columnar storage of data instead of row based
+- Import/Export data to Redshift:
+    - COPY command: from S3, EMR, DynamoDB, remote hosts
+    - UNLOAD: unload from a table into files in S3
+    - Enhanced VPC routing
+    - Auto-copy from S3
+    - Auto replication from Aurora
+    - Streaming Ingestion from Kinesis Data streams or MSK
+- Redshift Lambda UDF: execute lambda funcs in SQL queries
+- Redshift Federated Queries: Ties Redshift to RDS or Aurora. It also eliminates the need for ETL 
 
 **6. Amazon EMR (Elastic MapReduce)**
 - Helps creating Hadoop clusters (big data)
